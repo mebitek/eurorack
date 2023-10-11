@@ -77,7 +77,7 @@ const Scale preset_scales[6] = {
     }
   },
   
-  // Pentatonic
+  // C Harmonic minor
   {
     1.0f,
     12,
@@ -85,50 +85,55 @@ const Scale preset_scales[6] = {
       { 0.0000f, 255 },  // C
       { 0.0833f, 4 },    // C#
       { 0.1667f, 96 },   // D
-      { 0.2500f, 4 },    // Eb
+      { 0.2500f, 192 },    // Eb
       { 0.3333f, 4 },    // E
-      { 0.4167f, 140 },  // F
-      { 0.5000f, 4 },    // F#
+      { 0.4167f, 64 },  // F
+      { 0.5000f, 32 },    // F#
       { 0.5833f, 192 },  // G
-      { 0.6667f, 4 },    // G#
-      { 0.7500f, 96 },   // A
-      { 0.8333f, 4 },    // Bb
-      { 0.9167f, 4 },    // B
+      { 0.6667f, 128 },    // G#
+      { 0.7500f, 4 },   // A
+      { 0.8333f, 16 },    // Bb
+      { 0.9167f, 192 },    // B
     }
   },
-  
-  // Pelog
-  {
-    1.0f,
-    7,
-    {
-      { 0.0000f, 255 },  // C
-      { 0.1275f, 128 },  // Db+
-      { 0.2625f, 32 },  // Eb-
-      { 0.4600f, 8 },    // F#-
-      { 0.5883f, 192 },  // G
-      { 0.7067f, 64 },  // Ab
-      { 0.8817f, 16 },    // Bb+
-    }
-  },
-  
-  // Raag Bhairav That
+
+  // C, Eb, F#, A Diminished whole half
   {
     1.0f,
     12,
     {
-      { 0.0000f, 255 }, // ** Sa
-      { 0.0752f, 128 }, // ** Komal Re
-      { 0.1699f, 4 },   //    Re
-      { 0.2630f, 4 },   //    Komal Ga
-      { 0.3219f, 128 }, // ** Ga
-      { 0.4150f, 64 },  // ** Ma
-      { 0.4918f, 4 },   //    Tivre Ma
-      { 0.5850f, 192 }, // ** Pa
-      { 0.6601f, 64 },  // ** Komal Dha
-      { 0.7549f, 4 },   //    Dha
-      { 0.8479f, 4 },   //    Komal Ni
-      { 0.9069f, 64 },  // ** Ni
+      { 0.0000f, 255 }, // C
+      { 0.0833f, 0 }, // C#
+      { 0.1667f, 255 }, // D
+      { 0.2500f, 192 }, // Eb
+      { 0.3333f, 0 }, // E
+      { 0.4167f, 192 }, // F
+      { 0.5000f, 255 }, // F#
+      { 0.5833f, 0 }, // G
+      { 0.6667f, 255 }, // G#
+      { 0.7500f, 192 }, // A
+      { 0.8333f, 0 }, // Bb
+      { 0.9167f, 255 }, // B
+    }
+  },
+
+  // Dorian
+  {
+    1.0f,
+    12,
+    {
+      { 0.0000f, 255 }, // C
+      { 0.0833f, 4 },   // C#
+      { 0.1667f, 192 }, // D
+      { 0.22500, 224 },  // Eb
+      { 0.3333f, 4 },   // E
+      { 0.4167f, 160 }, // F
+      { 0.5000f, 8 },   // F#
+      { 0.5833f, 224 }, // G
+      { 0.6667f, 4 },   // G#
+      { 0.7500f, 224 },  // A
+      { 0.8333f, 192 }, // Bb
+      { 0.9167f, 4 },   // B
     }
   },
   
@@ -150,7 +155,7 @@ const Scale preset_scales[6] = {
       { 0.8479f, 128 }, // ** Komal Ni
       { 0.9069f, 4 },   //    Ni
     }
-  },
+  }
 };
 
 #define FIX_OUTLIER(destination, expected_value) if (fabsf(destination / expected_value - 1.0f) > 0.1f) { destination = expected_value; }
@@ -174,6 +179,12 @@ void Settings::Init() {
   fill(&c.dac_offset[0], &c.dac_offset[DAC_CHANNEL_LAST], 32768.0f);
   c.adc_offset[ADC_CHANNEL_T_RATE] = 60.0f;
   c.adc_scale[ADC_CHANNEL_T_RATE] = -120.0f;
+
+  // calibration data
+  c.dac_scale[0] = -6492.5022f; c.dac_offset[0] = 33325.3813f;
+  c.dac_scale[1] = -6169.5050f; c.dac_offset[1] = 32394.4365f;
+  c.dac_scale[2] = -6214.8645f; c.dac_offset[2] = 32456.6353f;
+  c.dac_scale[3] = -6204.9336f; c.dac_offset[3] = 32380.1917f;
   
   for (size_t i = 0; i < kNumScales; ++i) {
     ResetScale(i);
