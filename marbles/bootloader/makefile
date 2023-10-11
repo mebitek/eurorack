@@ -42,6 +42,6 @@ PACKAGES       = marbles/bootloader \
 		stmlib/system
 RESOURCES      = marbles/resources
 
-TOOLCHAIN_PATH ?= /usr/local/arm-4.8.3/
+TOOLCHAIN_PATH ?= /usr/local/arm/
 
 include stmlib/makefile.inc
